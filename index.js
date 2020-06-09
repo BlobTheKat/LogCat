@@ -16,106 +16,13 @@ function link(vname, file){
     set: a => (c=a,fs.writeFileSync(file,or(JSON.stringify(c),null)))
   })
 }
-envStore = {crackit: process.env.answer}
 var schedule = require('node-schedule');
 const https = require('https');
 const ex = require("express");
 const app = ex()
-var request = require('request');
-var bodyParser = require('body-parser');
-app.get("/i5/:id", (req, res) => {
-  res.end(fs.readFileSync("i5.html").toString().replace("<node id>", req.params.id))
-})
-app.get("/i3/:id", (req, res) => {
-  var c = (envStore[req.params.id] == req.query.answer)
-  if(c){
-    var name = (req.query.name||"Anonymous").replace(/[^a-zA-Z0-9 _]|(?<=.{16,})/g,"")
-    var j = JSON.parse(fs.readFileSync("i5.json"));
-    if(!j[req.params.id]){j[req.params.id]={}}
-    if(!(name in j[req.params.id])){
-      j[req.params.id][name] = new Date().toISOString();
-      fs.writeFileSync("i5.json", JSON.stringify(j))
-    }
-  }
-  res.end(c?"true":"false")
-})
-app.get('/cors', function (req, res, next) {
-    // Set CORS headers: allow all origins, methods, and headers: you may want to lock this down in a production environment
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
-    if (req.method === 'OPTIONS') {
-        // CORS Preflight
-        res.send();
-    } else {
-      try{
-        request({ url: req.query.url, method: req.method||"GET", json: req.body, headers: {'Authorization': req.header('Authorization')||""} },
-        function (error, response, body) {
-            if (error) {
-              console.error('error: ' + response.statusCode)
-            }
-        }).pipe(res);
-      }catch(e){
-        res.end("ERROR")
-      }
-    }
-});
-function getFile(url, callback=()=>{}){
-  var ct = "text/plain"
-  https.get(url, (resp) => {
-    ct = resp.headers['content-type'];
-    var data = '';
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      callback(data, false, ct);
-    });
-  }).on("error", (err) => {
-    callback(err, true, ct);
-  });
-}
 Object.defineProperty(this,"uuid",{get:function(){return("000000000000"+new Date().getTime()*100+Math.floor((performance.now()+performance.timeOrigin)%1*100)).slice(-12).toString(16).replace(/^(\w{8})/,"$1-")+"-4"+Math.floor(Math.random()*4096).toString(16)+"-b"+Math.floor(Math.random()*4096).toString(16)+"-"+("000000000000"+Math.random().toString(16).slice(2)).slice(-12)}});Object.defineProperty(this,"muid",{get: function(){var d="",z="",a="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";(Math.round((performance.now()+performance.timeOrigin)*200)%281474976710656).toString(8).match(/\d{1,2}/g).forEach(function(itm){d+=a[parseInt(itm, 8)]});d=("AAAAAAAA"+d).slice(-8);Math.floor(Math.random()*16777216).toString(8).match(/\d{1,2}/g).forEach(function(itm){z+=a[parseInt(itm, 8)]});return d+"-"+z}})
-app.get("/cors", (req, res) => {
-  url = req.query.url
-  getFile(url, (a,b,c)=>{
-    if(b){res.status(500)}
-    res.setHeader("content-type", "image/png")
-    res.setHeader("Access-Control-Allow-Origin","*")
-    res.send(a)
-  })
-})
 app.get("/", (req, res) => {
   res.end("Nothing here...");
-})
-app.get("/pf", (req, res) => {
-  res.end(fs.readFileSync("pf.json"))
-})
-app.get("/pf/:id*", (req, res) => {
-  req.params.id = (req.params.id+Object.assign([], req.params).join(""))
-  res.setHeader("Access-Control-Allow-Origin", "*")
-  res.setHeader("content-type", "text/html")
-  var f = JSON.parse(fs.readFileSync("pf.json"))[req.params.id] || ["link not found :(", "(r,g,b,a,x,y) => [r+(x/w*128+48),g+(y/h*128+48),b-(x/w*128-96)-(y/h*128-96),a]", "https://picfunk.matreiner.repl.co/err404.png",true];
-  res.end(fs.readFileSync("pf.html").toString().replace("<node author>", (f[3]?"":"Made By ")+f[0]).replace("<node pfunc>", f[1].replace(/`/g, "\\`")).replace("<node url>", f[2]))
-})
-app.get("/pfpost", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*")
-  var f = JSON.parse(fs.readFileSync("pf.json"))
-  if(!req.query.url||!req.query.author||!req.query.pfunc){
-    res.status(403)
-    res.end("403 NOT ENOUGH PARAMS")
-    return;
-  }
-  if(req.query.url.length > 65536 || req.query.author.length > 256 || req.query.pfunc.length > 65536){
-    res.status(403)
-    res.end("403 TOO BIG")
-    return;
-  }
-  let x = muid;
-  f[x] = [req.query.author, req.query.pfunc, req.query.url]
-  res.end(x)
-  fs.writeFileSync("pf.json", JSON.stringify(f));
 })
 app.listen(3000)
 var j = schedule.scheduleJob('0 * * * * *', function(){
@@ -134,7 +41,6 @@ const client = new Discord.Client();
 client.on('ready', () => {
   logch = client.guilds.cache.find(a => a.id="699267121359749180").channels.cache.find(a => a.name == "logs")
   client.user.setActivity("Super cat Tales!", { type: "PLAYING" });
-  x=Infinity;
 });
 var mail = {};
 fs.readFile("mail.json", (b,a)=>{mail = JSON.parse(a)})
