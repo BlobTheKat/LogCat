@@ -209,9 +209,10 @@ client.on('message', message => {
   giveXp(message.author.id, Math.floor(Math.random()*10))
   if(message.guild.name!="PicFunk"||(message.content[0]!="/" && !wl.includes(message.content))){return}
   if(message.channel.name!="bot-commands"){return}
-  var reply = (m,pm=true)=>{return message.channel.send((pm?premeow():"")+m)};
+  var reply = (m,pm=true)=>message.channel.send((pm?premeow():"")+m)
   var str=message.content.slice(1);var w=str.match(/((?<![\\])['"])((?:.(?!(?<![\\])\1))*.?)\1/g);str=str.replace(/undefined/g,`u᠎ndefined`).replace(/((?<![\\])['"])((?:.(?!(?<![\\])\1))*.?)\1/g,"undefined");var z=0;var q=str.split(" ");q.forEach(function(i,n){if(i=="undefined"){q[n]=(w[z]||"undefined").replace(/(^["']|["']$)/g,"");z++}});
   params = q.slice(1);
+  
   switch(q[0]){
     case "help":
     if(!params.length){
@@ -729,7 +730,7 @@ function hM(message){
     if(roles.includes("Moderator")){
       message.delete();
     }
-    reply(params.join(" "),false)
+    message.channel.send(params.join(" "))
     return true;
   }
   return false;
