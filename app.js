@@ -31,7 +31,7 @@ setInterval(function(){
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.on('ready', () => {
-  logch = client.guilds.find(a => a.id=="699267121359749180").channels.find(a => a.name == "logs")
+  logch = client.guilds.find(a => a.id == "699267121359749180").channels.find(a => a.name == "logs")
   client.user.setActivity("Super cat Tales!", { type: "PLAYING" });
 });
 var mail = {};
@@ -177,23 +177,18 @@ var times = {
 var ems = [];
 var wl = ["c"]
 var logch = {send: () => console.log("Bot not ready!")};
-function log(title, fds, col){
-  var ar = Object.assign([], arguments)
-  if(ar.length%2){
-    ar.push("")
-  }
-  var fds = ar.slice(1,-1);
-  var col = ar[ar.length-1] || "#2f3136";
+function log(title, col="#2f3136", fds){
   var f = []
-  for(var i = 0;i<fds.length;i+=2){
-    f.push({name:fds[i].replace(/-/,"").replace(/^\\-/,"-"),value:fds[i+1],inline:fds[i][0]=="-"});
+  for(var i in fds){
+    f.push({name:i.replace(/(?<!\\)-/,"").replace(/^\\-/,"-"),value:fds[i],inline:fds[i][0]=="-"});
   }
-  logch.send(new Discord.MessageEmbed().setColor(col).setTitle(title).setAuthor("LogCat > Logs").addFields(...f).setTimestamp())
+  console.log(f);
+  logch.send(new Discord.MessageEmbed().setColor(col).setTitle(title).setAuthor("Kenobi > Logs").addFields(...f).setTimestamp())
 }
 log.toString = () => "function log(title[, key, value], col) { [native code] }";
 client.on("presenceUpdate", (oldMember, newMember) => {
   var mem = newMember.guild.members.find(a => a.id == newMember.userID);
-  log("info", "type", "statusChange", "user", "<@"+newMember.userID+">","status",newMember.status);
+  log("info", "#333", {"type": "statusChange", "user": "<@"+newMember.userID+">","status":newMember.status});
   if(newMember.status == "online"){
     newMember.guild.channels.find(a => a.name == "bot-commands").send("<@"+newMember.userID+"> is now online!")
   }else if(newMember.status == "offline"){
