@@ -27,7 +27,7 @@ setInterval(function(){
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.on('ready', () => {
-  logch = client.guilds.cache.find(a => a.id="699267121359749180").channels.cache.find(a => a.name == "logs")
+  logch = client.guilds.find(a => a.id="699267121359749180").channels.find(a => a.name == "logs")
   client.user.setActivity("Super cat Tales!", { type: "PLAYING" });
 });
 var mail = {};
@@ -145,7 +145,7 @@ var help = {
   "wipe": ["<optional msgcount: number | 20>", "clear the last <*msgcount*> messages. Works in any channel. If you are not mod, only clears your messages."]
 }
 client.on('guildMemberAdd', member => {
-  const channel = member.guild.channels.cache.find(ch => ch.name === 'bot-commands');
+  const channel = member.guild.channels.find(ch => ch.name === 'bot-commands');
   if (!channel) return;
   channel.send(`Someone just joined the server. Everyone welcome ${member}!`);
 });
@@ -188,12 +188,12 @@ function log(title, fds, col){
 }
 log.toString = () => "function log(title[, key, value], col) { [native code] }";
 client.on("presenceUpdate", (oldMember, newMember) => {
-  var mem = newMember.guild.members.cache.find(a => a.id == newMember.userID);
+  var mem = newMember.guild.members.find(a => a.id == newMember.userID);
   log("info", "type", "statusChange", "user", "<@"+newMember.userID+">","status",newMember.status);
   if(newMember.status == "online"){
-    newMember.guild.channels.cache.find(a => a.name == "bot-commands").send("<@"+newMember.userID+"> is now online!")
+    newMember.guild.channels.find(a => a.name == "bot-commands").send("<@"+newMember.userID+"> is now online!")
   }else if(newMember.status == "offline"){
-    newMember.guild.channels.cache.find(a => a.name == "bot-commands").send((mem.nickname||mem.username)+" left for real life!")
+    newMember.guild.channels.find(a => a.name == "bot-commands").send((mem.nickname||mem.username)+" left for real life!")
   }
 });
 
@@ -266,7 +266,7 @@ client.on('message', message => {
     }
     return;
     case "kick":
-    if(!message.member.roles.cache.find(role => role.name === "Moderator")){reply("You don't have permission to kick anyone!");return}
+    if(!message.member.roles.find(role => role.name === "Moderator")){reply("You don't have permission to kick anyone!");return}
     var member = message.mentions.members.first();
     //var member = message.guild.member(user);
     if(!member){
@@ -280,7 +280,7 @@ client.on('message', message => {
     })
     return;
     case "ban":
-    if(!message.member.roles.cache.find(role => role.name === "Moderator")){reply("You don't have permission to kick anyone!");return}
+    if(!message.member.roles.find(role => role.name === "Moderator")){reply("You don't have permission to kick anyone!");return}
     var member = message.mentions.members.first()
     if(!member){
       reply("No one to ban...")
@@ -295,7 +295,7 @@ client.on('message', message => {
     case "mute":
     var roles = [];
     message.guild.member(message.author)._roles.forEach(a=>{
-      roles.push(message.guild.roles.cache.get(a).name)
+      roles.push(message.guild.roles.get(a).name)
     })
     if(!roles.includes("Moderator")){reply("You don't have permission to mute anyone!");return}
     var member = message.mentions.members.first();
@@ -383,7 +383,7 @@ client.on('message', message => {
     var rankStat = rank[message.author.id];
     var roles = [];
     message.guild.member(message.author)._roles.forEach(a=>{
-      roles.push(message.guild.roles.cache.get(a).name)
+      roles.push(message.guild.roles.get(a).name)
     })
     roles.forEach((a, b)=>{
       roles.splice(b,1)
@@ -689,7 +689,7 @@ function hM(message){
     if(message.channel.name == "logs"){log("warn", "cause", "`/wipe` is disabled in this channel","severity","none", "#ff9900");message.delete();return}
     var roles = [];
     message.guild.member(message.author)._roles.forEach(a=>{
-      roles.push(message.guild.roles.cache.get(a).name)
+      roles.push(message.guild.roles.get(a).name)
     });
     (async function() {
       var fetched = await message.channel.messages.fetch({limit: Math.max(Math.min((+params[0]+1)||20,100),0)});
@@ -720,7 +720,7 @@ function hM(message){
     case "simonsays":
     var roles = [];
     message.guild.member(message.author)._roles.forEach(a=>{
-      roles.push(message.guild.roles.cache.get(a).name)
+      roles.push(message.guild.roles.get(a).name)
     })
     if(roles.includes("Moderator")){
       message.delete();
