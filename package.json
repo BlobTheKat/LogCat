@@ -1,6 +1,6 @@
 {
   "name": "LogCat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Discord Bot",
   "main": "app.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "",
+  "author": "Matreiner",
   "license": "ISC",
   "bugs": {
     "url": ""
