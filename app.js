@@ -1,10 +1,6 @@
 require("dotenv").config()
 var BigNumber = require("./bignumber.min.js")
 const fs = require("fs")
-var performance = require("perf_hooks").performance
-performance.now = function(){
-  return performance.nodeTiming.duration;
-}
 or = (v, f) => v===undefined?f:v
 var t = this;
 function link(vname, file){
@@ -17,19 +13,11 @@ function link(vname, file){
     set: a => (c=a,fs.writeFileSync(file,or(JSON.stringify(c),null)))
   })
 }
-var schedule = require('node-schedule');
-const https = require('https');
 const ex = require("express");
 const app = ex()
-Object.defineProperty(this,"uuid",{get:function(){return("000000000000"+new Date().getTime()*100+Math.floor((performance.now()+performance.timeOrigin)%1*100)).slice(-12).toString(16).replace(/^(\w{8})/,"$1-")+"-4"+Math.floor(Math.random()*4096).toString(16)+"-b"+Math.floor(Math.random()*4096).toString(16)+"-"+("000000000000"+Math.random().toString(16).slice(2)).slice(-12)}});Object.defineProperty(this,"muid",{get: function(){var d="",z="",a="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";(Math.round((performance.now()+performance.timeOrigin)*200)%281474976710656).toString(8).match(/\d{1,2}/g).forEach(function(itm){d+=a[parseInt(itm, 8)]});d=("AAAAAAAA"+d).slice(-8);Math.floor(Math.random()*16777216).toString(8).match(/\d{1,2}/g).forEach(function(itm){z+=a[parseInt(itm, 8)]});return d+"-"+z}})
 app.get("/", (req, res) => {
   res.end("Nothing here...");
 })
-app.listen(3000)
-var j = schedule.scheduleJob('0 * * * * *', function(){
-  getFile("https://l.matreiner.repl.co/");
-  getFile("https://discord.matreiner.repl.co/", (a, b)=>{if(b){console.log("KEEPALIVE FAILED:\n", a)}});
-});
 setInterval(function(){
   if(rank.profile!=Math.floor((new Date().getTime())/900000)%12){
     rank.profile=Math.floor((new Date().getTime())/900000)%12;
