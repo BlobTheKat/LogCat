@@ -17,6 +17,9 @@ const app = ex()
 app.get("/", (req, res) => {
   res.end("Nothing here...");
 })
+app.get("*", (req, res) => {
+  res.end("Nothing here...");
+})
 app.listen(3000)
 setInterval(function(){
   if(rank.profile!=Math.floor((new Date().getTime())/900000)%12){
