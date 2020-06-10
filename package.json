@@ -1,19 +1,18 @@
 {
-  "name": "LogCat",
-  "version": "1.0.1",
-  "description": "Discord Bot",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "author": "Matreiner",
-  "license": "ISC",
-  "bugs": {
-    "url": ""
-  },
-  "homepage": ""
+	"name": "discord-bot",
+	"version": "1.0.0",
+	"description": "Discord bot for PicFunc",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js"
+	},
+	"author": "MatReiner",
+	"license": "MIT",
+	"dependencies": {
+		"discord.js": "^11.5.1",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"fs": "0.0.1-security"
+	}
 }
