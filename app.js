@@ -425,7 +425,7 @@ function hDm(message){
   }
   reply("Please don't dm bots unless it's important",false,true);
 }
-client.login(process.env.token);
+client.login(process.env.BOT_TOKEN);
 const readline = require("readline");
 const rl = readline.createInterface({
     input: process.stdin,
