@@ -1,3 +1,4 @@
+require("dotenv").config()
 var BigNumber = require("./bignumber.min.js")
 const fs = require("fs")
 var performance = require("perf_hooks").performance
