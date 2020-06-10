@@ -180,11 +180,11 @@ var logch = {send: () => console.log("Bot not ready!")};
 function log(title, col="#2f3136", fds){
   var f = []
   for(var i in fds){
-    f.push({name:i.replace(/(?<!\\)-/,"").replace(/^\\-/,"-"),value:fds[i],inline:fds[i][0]=="-"});
+    f.push({name:i.replace(/(?<!\\)-/,"").replace(/^\\-/,"-"),value:fds[i],inline:i[0]=="-"});
   }
-  console.log(f);
   logch.send(new Discord.MessageEmbed().setColor(col).setTitle(title).setAuthor("Kenobi > Logs").addFields(...f).setTimestamp())
 }
+
 log.toString = () => "function log(title[, key, value], col) { [native code] }";
 client.on("presenceUpdate", (oldMember, newMember) => {
   var mem = newMember.guild.members.find(a => a.id == newMember.userID);
