@@ -1,4 +1,3 @@
-require("dotenv").config()
 var BigNumber = require("./bignumber.min.js")
 const fs = require("fs")
 or = (v, f) => v===undefined?f:v
