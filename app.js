@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 app.get("*", (req, res) => {
   res.end("Nothing here...");
 })
-app.listen(3000)
+app.listen(process.env.PORT)
 setInterval(function(){
   if(rank.profile!=Math.floor((new Date().getTime())/900000)%12){
     rank.profile=Math.floor((new Date().getTime())/900000)%12;
