@@ -692,8 +692,7 @@ function hM(message){
       roles.push(message.guild.roles.get(a).name)
     });
     (async function() {
-      console.log(message.channel.messages.__proto__)
-      var fetched = await message.channel.messages.fetch({limit: Math.max(Math.min((+params[0]+1)||20,100),0)});
+      var fetched = await message.channel.fetchMessages({limit: Math.max(Math.min((+params[0]+1)||20,100),0)});
       if(!roles.includes("Moderator")){
         fetched = fetched.filter(a=>a.author.id == message.author.id)
       }
