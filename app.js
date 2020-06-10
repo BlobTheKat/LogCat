@@ -27,7 +27,7 @@ setInterval(function(){
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.on('ready', () => {
-  logch = client.guilds.find(a => a.id="699267121359749180").channels.find(a => a.name == "logs")
+  logch = client.guilds.find(a => a.id=="699267121359749180").channels.find(a => a.name == "logs")
   client.user.setActivity("Super cat Tales!", { type: "PLAYING" });
 });
 var mail = {};
